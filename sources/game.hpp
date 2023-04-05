@@ -31,40 +31,43 @@ namespace ariel
      * @param player2 a reference to the second player object
      */
     Game(Player &player1, Player &player2);
+
     /**
-     * @brief Returns the number of rounds played in the game.
+     * @brief  plays a single turn of the game.
      *
-     * @return The number of rounds played in the game.
      */
+
     void playTurn();
+
     /**
-     * @brief Returns the number of draws in the game.
+     * @brief print the last turn stats.
      *
-     * @return The number of draws in the game.
      */
 
     void printLastTurn();
+
     /**
-     * @brief Returns the number of rounds played in the game.
+     * @brief playes the game untill the end
      *
-     * @return The number of rounds played in the game.
      */
     void playAll();
+
     /**
-     * @brief Returns the number of draws in the game.
+     * @brief  prints the name of the winning player
      *
-     * @return The number of draws in the game.
      */
+
     void printWiner();
+
     /**
-     * @brief Returns the number of rounds played in the game.
-     *
-     * @return The number of rounds played in the game.
+     * @brief prints all the turns played one line per turn (same format as game.printLastTurn())
      */
+
     void printLog();
+
     /**
-     * @brief the statistics of the game, including the number of draws, draw rate,
-     * and the statistics for each player (number of wins, losses, and remaining cards).
+     * @brief prints  the statistics of the game, including the number of draws, draw rate,
+     *  and the statistics for each player (number of wins, losses, and remaining cards).
      */
 
     void printStats();
