@@ -12,7 +12,7 @@ namespace ariel
   Player::Player(std::string name)
   {
     this->m_name = name;
-    this->m_stack.clear();
+    this->m_stack.clear(); // clear the stack
     this->m_cardsTaken = 0;
     this->m_rounds = 0;
     this->m_wonRounds = 0;
@@ -65,6 +65,6 @@ namespace ariel
     double win_rate = this->m_wonRounds;
     win_rate /= this->m_rounds;
     cout << "Win rate: " << win_rate << "\n";
-    cout << "cards won: " << this->m_cardsTaken << "\n";
+    cout << "Cards won: " << this->m_cardsTaken << "\n";
   }
 }

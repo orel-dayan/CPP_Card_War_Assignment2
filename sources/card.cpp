@@ -36,10 +36,10 @@ namespace ariel
     {
     case DIAMONDS:
       return "Diamonds";
-    case SPADES:
-      return "Spades";
     case HEARTS:
       return "Hearts";
+    case SPADES:
+      return "Spades";
     default:
       return "Clubs";
     }

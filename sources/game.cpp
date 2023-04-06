@@ -49,13 +49,11 @@ namespace ariel
   void Game::playTurn()
   {
     if (this->m_isSame)
-    {
-      throw "no games against yourself";
-    }
+      throw logic_error("no games against yourself");
+
     if (m_player1.stacksize() == 0 || m_player2.stacksize() == 0)
-    {
-      throw "no more cards to play";
-    }
+      throw logic_error("no more cards");
+
     // init vars for the turn
     std::string log = "";
     bool round_complete = true;
@@ -78,8 +76,6 @@ namespace ariel
       {
         round_complete = true;
         log += "Draw.";
-        //
-
         this->m_player1.dealCard();
         this->m_player2.dealCard();
         winCards += 2;      // for updating the stats
@@ -98,6 +94,12 @@ namespace ariel
         m_player2.updateStatsForRound(winCards);
         m_player1.updateStatsForRound(0);
       }
+      else if (dlc2.getNumber() > dlc1.getNumber())
+      {
+        log += this->m_player2.getName() + " wins.";
+        m_player2.updateStatsForRound(winCards);
+        m_player1.updateStatsForRound(0);
+      }
 
       // default case by value
       else if (dlc1.getNumber() > dlc2.getNumber())
@@ -105,12 +107,6 @@ namespace ariel
         log += this->m_player1.getName() + " wins.";
         m_player1.updateStatsForRound(winCards);
         m_player2.updateStatsForRound(0);
-      }
-      else if (dlc2.getNumber() > dlc1.getNumber())
-      {
-        log += this->m_player2.getName() + " wins.";
-        m_player2.updateStatsForRound(winCards);
-        m_player1.updateStatsForRound(0);
       }
     }
     log += "\n"; // round end
@@ -135,14 +131,16 @@ namespace ariel
   {
     if (m_player1.cardesTaken() > m_player2.cardesTaken())
     {
-      cout << m_player1.getName() + " won";
+      cout << m_player1.getName() + " won" << endl;
     }
     else if (m_player1.cardesTaken() < m_player2.cardesTaken())
     {
-      cout << m_player1.getName() + " won";
+      cout << m_player1.getName() + " won" << endl;
     }
     else
       throw "no winner";
+      // why it is exception? i dont know
+
   }
 
   void Game::printLog()
