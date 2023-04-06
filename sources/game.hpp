@@ -67,7 +67,7 @@ namespace ariel
 
     /**
      * @brief prints  the statistics of the game, including the number of draws, draw rate,
-     *  and the statistics for each player (number of wins, losses, and remaining cards).
+     *  and the statistics for each player 
      */
 
     void printStats();
