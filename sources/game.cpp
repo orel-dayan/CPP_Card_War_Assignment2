@@ -45,43 +45,67 @@ namespace ariel
       player2.pushCard(deck[i + 26]);
     }
   }
+  /*
 
   void Game::playTurn()
   {
+
     if (this->m_isSame)
       throw logic_error("no games against yourself");
 
     if (m_player1.stacksize() == 0 || m_player2.stacksize() == 0)
       throw logic_error("no more cards");
-
-    // init vars for the turn
     std::string log = "";
-    bool round_complete = true;
-    int winCards = 0; // for updating the stats
-
-    while (round_complete)
+    bool continuePlaying = true;
+    int winCards = 0;
+    while (continuePlaying)
     {
       this->m_rounds += 1;
-      round_complete = false;
-      // get the cards played by each player
-      Card dlc1 = this->m_player1.dealCard();
-      Card dlc2 = this->m_player2.dealCard();
-      // update the number of cards won by each player
-      winCards += 2;
-      // add the cards to the log
-      log += m_player1.printTurns(dlc1) + " " + m_player2.printTurns(dlc2) + ". ";
-      // determine the winner
-
-      if (dlc1.getNumber() == dlc2.getNumber()) // draw case
+      continuePlaying = false;
+      // getting the cards
+      Card dlc1;
+      Card dlc2;
+      try
       {
-        round_complete = true;
-        log += "Draw.";
-        this->m_player1.dealCard();
-        this->m_player2.dealCard();
-        winCards += 2;      // for updating the stats
-        this->m_draws += 1; // update the number of draws
+        dlc1 = this->m_player1.dealCard();
+        dlc2 = this->m_player2.dealCard();
+        winCards += 2;
       }
-      //  Ace wins against all except for 2 cases
+      catch (exception e)
+      {
+        if (winCards == 0)
+        {
+          throw "no more cards to play";
+        }
+        // no more card to draw everyone get the card he throws
+        m_player1.updateStatsForRound(winCards / 2);
+        m_player2.updateStatsForRound(winCards / 2);
+        goto end;
+      }
+      // setting the first part of the log;
+      log += m_player1.printTurns(dlc1) + " " + m_player2.printTurns(dlc2) + ". ";
+      // find the winner
+
+      // draw case
+      if (dlc1.getNumber() == dlc2.getNumber())
+      {
+        continuePlaying = true;
+        log += "Draw.";
+        try
+        {
+          this->m_player1.dealCard();
+          this->m_player2.dealCard();
+          winCards += 2;
+        }
+        catch (exception e)
+        {
+          // no more card to draw everyone get the card he throws
+          m_player1.updateStatsForRound(winCards / 2);
+          m_player2.updateStatsForRound(winCards / 2);
+          continuePlaying = false;
+        }
+      }
+      //  ace wins against all except for 2 cases
       else if (dlc1.getNumber() == 1 && dlc2.getNumber() != 2)
       {
         log += this->m_player1.getName() + " wins.";
@@ -109,9 +133,106 @@ namespace ariel
         m_player2.updateStatsForRound(0);
       }
     }
+  end:
     log += "\n"; // round end
     this->m_roundsLogs.push_back(log);
   }
+
+*/
+void Game::playTurn()
+{
+
+  if (this->m_isSame)
+    throw logic_error("no games against yourself");
+
+  if (m_player1.stacksize() == 0 || m_player2.stacksize() == 0)
+    throw logic_error("no more cards");
+  std::string log = "";
+  bool continuePlaying = true;
+  int winCards = 0;
+  while (continuePlaying)
+  {
+    this->m_rounds += 1;
+    continuePlaying = false;
+    // getting the cards
+    Card dlc1;
+    Card dlc2;
+    try
+    {
+      dlc1 = this->m_player1.dealCard();
+      dlc2 = this->m_player2.dealCard();
+      winCards += 2;
+    }
+    catch (exception e)
+    {
+      if (winCards == 0)
+      {
+        throw "no more cards to play";
+      }
+      // no more card to draw everyone get the card he throws
+      m_player1.updateStatsForRound(winCards / 2);
+      m_player2.updateStatsForRound(winCards / 2);
+      continuePlaying = false;
+      break;
+    }
+    // setting the first part of the log;
+    log += m_player1.printTurns(dlc1) + " " + m_player2.printTurns(dlc2) + ". ";
+    // find the winner
+
+    // draw case
+    if (dlc1.getNumber() == dlc2.getNumber())
+    {
+      continuePlaying = true;
+      log += "Draw.";
+
+      try
+      {
+        this->m_player1.dealCard();
+        this->m_player2.dealCard();
+        winCards += 2;
+      }
+      catch (exception e)
+      {
+        // no more card to draw everyone get the card he throws
+        m_player1.updateStatsForRound(winCards / 2);
+        m_player2.updateStatsForRound(winCards / 2);
+        continuePlaying = false;
+        break;
+      }
+    }
+    //  ace wins against all except for 2 cases
+    else if (dlc1.getNumber() == 1 && dlc2.getNumber() != 2)
+    {
+      log += this->m_player1.getName() + " wins.";
+      m_player1.updateStatsForRound(winCards);
+      m_player2.updateStatsForRound(0);
+    }
+    else if (dlc1.getNumber() != 2 && dlc2.getNumber() == 1)
+    {
+      log += this->m_player2.getName() + " wins.";
+      m_player2.updateStatsForRound(winCards);
+      m_player1.updateStatsForRound(0);
+    }
+    else if (dlc2.getNumber() > dlc1.getNumber())
+    {
+      log += this->m_player2.getName() + " wins.";
+      m_player2.updateStatsForRound(winCards);
+      m_player1.updateStatsForRound(0);
+    }
+
+    // default case by value
+    else if (dlc1.getNumber() > dlc2.getNumber())
+    {
+      log += this->m_player1.getName() + " wins.";
+      m_player1.updateStatsForRound(winCards);
+      m_player2.updateStatsForRound(0);
+    }
+  }
+
+  log += "\n"; // round end
+  this->m_roundsLogs.push_back(log);
+}
+
 
   void Game::printLastTurn()
   {
@@ -138,9 +259,7 @@ namespace ariel
       cout << m_player1.getName() + " won" << endl;
     }
     else
-      throw "no winner";
-      // why it is exception? i dont know
-
+      cout << "no winner" << endl;
   }
 
   void Game::printLog()
