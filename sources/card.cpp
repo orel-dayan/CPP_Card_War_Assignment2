@@ -8,6 +8,7 @@ namespace ariel
     this->m_number = number;
   }
 
+
   std::string Card::getNumberString()
   {
     if (this->m_number == 1)
