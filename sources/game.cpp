@@ -41,8 +41,8 @@ namespace ariel
 
     for (unsigned long int i = 0; i < 26; i++)
     {
-      player1.pushCard(deck[i]);
-      player2.pushCard(deck[i + 26]);
+      player1.addCard(deck[i]);
+      player2.addCard(deck[i + 26]);
     }
   }
 
@@ -178,8 +178,8 @@ namespace ariel
 
   void Game::printStats()
   {
-    this->m_player1.printStats();
-    this->m_player2.printStats();
+    this->m_player1.printStats(); // print player 1 stats
+    this->m_player2.printStats(); // print player 2 stats
     // Calculate and print draw rate and draws amount
     double draw_rate = m_draws;
     draw_rate /= m_rounds;

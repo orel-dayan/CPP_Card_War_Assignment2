@@ -28,7 +28,7 @@ namespace ariel
     return this->m_cardsTaken;
   }
 
-  void Player::pushCard(Card card)
+  void Player::addCard(Card card)
   {
     this->m_stack.push_back(card);
   }

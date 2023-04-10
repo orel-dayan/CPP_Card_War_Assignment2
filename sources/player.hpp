@@ -51,7 +51,7 @@ namespace ariel
      *
      * @param card  The card to add
      */
-    void pushCard(Card card);
+    void addCard(Card card);
 
     /**
      * @brief Adds a round to the player's record and updates the player's stats.
