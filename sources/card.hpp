@@ -43,7 +43,7 @@ namespace ariel
      * @param number  The number of the card
      * @param suit The suit of the card
      */
-    Card(int number = 1, Suit suit = HEARTS);
+    Card(int number = 1, Suit suit = CLUBS);
 
     /**
      * @brief Returns the string representation of the card.

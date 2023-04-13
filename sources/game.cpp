@@ -52,8 +52,9 @@ namespace ariel
       throw logic_error("no games against yourself");
 
     if (m_player1.stacksize() == 0 || m_player2.stacksize() == 0)
-      throw logic_error("no more cards");
-
+    {
+      throw "no more cards to play";
+    }
     std::string log = "";
     bool continuePlaying = true;
     int winCards = 0;
@@ -61,84 +62,58 @@ namespace ariel
     {
       this->m_rounds += 1;
       continuePlaying = false;
-      // getting the cards
-      Card dlc1;
-      Card dlc2;
-      try
+
+      Card DealCard1;
+      Card DealCard2;
+      if (this->m_player1.stacksize() > 0 && this->m_player2.stacksize() > 0) // if both players have cards
       {
-        // try to get a card from each player, and catch an exception if either player is out of cards
-        dlc1 = this->m_player1.dealCard();
-        dlc2 = this->m_player2.dealCard();
+        DealCard1 = this->m_player1.dealCard();
+        DealCard2 = this->m_player2.dealCard();
         winCards += 2;
       }
-      catch (exception e)
+      else // if one of the players has no cards
       {
-         // if one player is out of cards, give each player the cards they have won so far and end the turn
-        if (winCards == 0)
-        {
-          throw "no more cards to play";
-        }
-
+        if (winCards == 0) throw "no more cards to play";
         m_player1.updateStatsForRound(winCards / 2);
         m_player2.updateStatsForRound(winCards / 2);
-        continuePlaying = false;
         break;
       }
-      // setting the first part of the log;
-      log += m_player1.printTurns(dlc1) + " " + m_player2.printTurns(dlc2) + ". ";
 
-
-      // draw case
-      if (dlc1.getNumber() == dlc2.getNumber()) // determine the winner of the round
+      log += m_player1.printTurns(DealCard1) + " " + m_player2.printTurns(DealCard2) + ". ";
+      if (DealCard1.getNumber() == DealCard2.getNumber()) // tie
       {
         continuePlaying = true;
         log += "Draw.";
-       //try to get another card from each player, and catch an exception if either player is out of cards
-        try
+        this->m_draws += 1;
+        // for poping
+        if (this->m_player1.stacksize() > 0 && this->m_player2.stacksize() > 0) // if both players have cards
         {
-          this->m_player1.dealCard();
-          this->m_player2.dealCard();
+          DealCard1 = this->m_player1.dealCard();
+          DealCard2 = this->m_player2.dealCard();
           winCards += 2;
         }
-        catch (exception e)
+        else // if one of the players has no cards
         {
-           // if one player is out of cards, give each player the cards they have won so far and end the turn
+
           m_player1.updateStatsForRound(winCards / 2);
           m_player2.updateStatsForRound(winCards / 2);
           continuePlaying = false;
-          break;
         }
       }
-      //  Ace wins against all except for 2 cases
-      else if (dlc1.getNumber() == 1 && dlc2.getNumber() != 2)
+      else if ((DealCard1.getNumber() > DealCard2.getNumber()) || (DealCard1.getNumber() == 1 && DealCard2.getNumber() != 2))
       {
         log += this->m_player1.getName() + " wins.";
         m_player1.updateStatsForRound(winCards);
         m_player2.updateStatsForRound(0);
       }
-      else if (dlc1.getNumber() != 2 && dlc2.getNumber() == 1) 
+      else
       {
         log += this->m_player2.getName() + " wins.";
         m_player2.updateStatsForRound(winCards);
         m_player1.updateStatsForRound(0);
-      }
-      else if (dlc2.getNumber() > dlc1.getNumber()) // higher value card wins
-      {
-        log += this->m_player2.getName() + " wins.";
-        m_player2.updateStatsForRound(winCards);
-        m_player1.updateStatsForRound(0);
-      }
-
-      // default case: lower value card wins
-      else if (dlc1.getNumber() > dlc2.getNumber())
-      {
-        log += this->m_player1.getName() + " wins.";
-        m_player1.updateStatsForRound(winCards);
-        m_player2.updateStatsForRound(0);
       }
     }
-
-    log += "\n"; // round end
+    log += "\n";  // end
     this->m_Log.push_back(log);
   }
 
@@ -190,5 +165,4 @@ namespace ariel
     cout << "draw rate:" << draw_rate << endl;
     cout << "draws amount:" << this->m_draws << endl;
   }
-
 }
