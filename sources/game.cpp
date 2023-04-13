@@ -53,7 +53,7 @@ namespace ariel
 
     if (m_player1.stacksize() == 0 || m_player2.stacksize() == 0)
       throw logic_error("no more cards");
-      
+
     std::string log = "";
     bool continuePlaying = true;
     int winCards = 0;
@@ -66,17 +66,19 @@ namespace ariel
       Card dlc2;
       try
       {
+        // try to get a card from each player, and catch an exception if either player is out of cards
         dlc1 = this->m_player1.dealCard();
         dlc2 = this->m_player2.dealCard();
         winCards += 2;
       }
       catch (exception e)
       {
+         // if one player is out of cards, give each player the cards they have won so far and end the turn
         if (winCards == 0)
         {
           throw "no more cards to play";
         }
-        // no more card to draw everyone get the card he throws
+
         m_player1.updateStatsForRound(winCards / 2);
         m_player2.updateStatsForRound(winCards / 2);
         continuePlaying = false;
@@ -84,14 +86,14 @@ namespace ariel
       }
       // setting the first part of the log;
       log += m_player1.printTurns(dlc1) + " " + m_player2.printTurns(dlc2) + ". ";
-      // find the winner
+
 
       // draw case
-      if (dlc1.getNumber() == dlc2.getNumber())
+      if (dlc1.getNumber() == dlc2.getNumber()) // determine the winner of the round
       {
         continuePlaying = true;
         log += "Draw.";
-
+       //try to get another card from each player, and catch an exception if either player is out of cards
         try
         {
           this->m_player1.dealCard();
@@ -100,34 +102,34 @@ namespace ariel
         }
         catch (exception e)
         {
-          // no more card to draw everyone get the card he throws
+           // if one player is out of cards, give each player the cards they have won so far and end the turn
           m_player1.updateStatsForRound(winCards / 2);
           m_player2.updateStatsForRound(winCards / 2);
           continuePlaying = false;
           break;
         }
       }
-      //  ace wins against all except for 2 cases
+      //  Ace wins against all except for 2 cases
       else if (dlc1.getNumber() == 1 && dlc2.getNumber() != 2)
       {
         log += this->m_player1.getName() + " wins.";
         m_player1.updateStatsForRound(winCards);
         m_player2.updateStatsForRound(0);
       }
-      else if (dlc1.getNumber() != 2 && dlc2.getNumber() == 1)
+      else if (dlc1.getNumber() != 2 && dlc2.getNumber() == 1) 
       {
         log += this->m_player2.getName() + " wins.";
         m_player2.updateStatsForRound(winCards);
         m_player1.updateStatsForRound(0);
       }
-      else if (dlc2.getNumber() > dlc1.getNumber())
+      else if (dlc2.getNumber() > dlc1.getNumber()) // higher value card wins
       {
         log += this->m_player2.getName() + " wins.";
         m_player2.updateStatsForRound(winCards);
         m_player1.updateStatsForRound(0);
       }
 
-      // default case by value
+      // default case: lower value card wins
       else if (dlc1.getNumber() > dlc2.getNumber())
       {
         log += this->m_player1.getName() + " wins.";
