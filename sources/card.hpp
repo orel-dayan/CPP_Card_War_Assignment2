@@ -26,7 +26,7 @@ namespace ariel
      *
      * @return A string representing the card's suit.
      */
-    std::string getSuitString();
+    std::string getSuit();
 
     /**
      * @brief Returns the string representation of the card's number.
@@ -34,7 +34,7 @@ namespace ariel
      * @return A string representing the card's number.
      */
 
-    std::string getNumberString();
+    std::string getNumberRepresentation();
 
   public:
     /**
@@ -50,7 +50,7 @@ namespace ariel
      *
      * @return A string representing the card.
      */
-    std::string toString();
+    std::string to_string();
 
     /**
      * @brief Returns the number of the card.
@@ -58,8 +58,6 @@ namespace ariel
      * @return The number of the card.
      */
     int getNumber();
-
-
   };
 }
 #endif

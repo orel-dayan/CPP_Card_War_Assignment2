@@ -8,30 +8,24 @@ namespace ariel
     this->m_number = number;
   }
 
-
-  std::string Card::getNumberString()
+  std::string Card::getNumberRepresentation()
   {
     if (this->m_number == 1)
-    {
       return "Ace";
-    }
+
     if (this->m_number == 11)
-    {
       return "Prince";
-    }
+
     if (this->m_number == 12)
-    {
       return "Queen";
-    }
+
     if (this->m_number == 13)
-    {
       return "King";
-    }
-    // default case
-    return std::to_string(this->m_number);
+
+    return std::to_string(this->m_number); // default case
   }
 
-  std::string Card::getSuitString()
+  std::string Card::getSuit()
   {
     switch (this->m_suit)
     {
@@ -46,9 +40,9 @@ namespace ariel
     }
   }
 
-  std::string Card::toString()
+  std::string Card::to_string()
   {
-    return getNumberString() + " of " + getSuitString();
+    return getNumberRepresentation() + " of " + getSuit();
   }
 
   int Card::getNumber()

@@ -15,7 +15,7 @@ namespace ariel
      * @brief A vector of strings representing the game's log.
      *
      */
-    std::vector<std::string> m_roundsLogs;
+    std::vector<std::string> m_Log;
     int m_draws;
     int m_rounds;
     /**
@@ -67,7 +67,7 @@ namespace ariel
 
     /**
      * @brief prints  the statistics of the game, including the number of draws, draw rate,
-     *  and the statistics for each player 
+     *  and the statistics for each player
      */
 
     void printStats();

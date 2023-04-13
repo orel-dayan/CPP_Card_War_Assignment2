@@ -51,20 +51,20 @@ namespace ariel
 
   std::string Player::printTurns(Card card)
   {
-    return this->m_name + " played " + card.toString();
+    return this->m_name + " played " + card.to_string();
   }
 
   void Player::printStats()
   {
     cout << "--------------------------------" << endl;
-    cout << this->m_name << " stats report" << endl;
+    cout << this->m_name << " Stats Report" << endl;
     cout << "--------------------------------" << endl;
     cout << "Cards taken: " << this->m_cardsTaken << endl;
-    cout << "Rounds won: " << this->m_wonRounds << endl;
     cout << "Rounds played: " << this->m_rounds << endl;
+    cout << "Rounds won: " << this->m_wonRounds << endl;
     double win_rate = this->m_wonRounds;
     win_rate /= this->m_rounds;
-    cout << "Win rate: " << win_rate << "\n";
-    cout << "Cards won: " << this->m_cardsTaken << "\n";
+    cout << "Win rate: " << win_rate << endl;
+    cout << "Cards won: " << this->m_cardsTaken << endl;
   }
 }

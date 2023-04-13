@@ -13,9 +13,8 @@ namespace ariel
     this->m_draws = 0;
     this->m_rounds = 0;
     if (&player1 == &player2)
-    {
       this->m_isSame = true;
-    }
+
     else
     {
       this->m_isSame = false;
@@ -54,6 +53,7 @@ namespace ariel
 
     if (m_player1.stacksize() == 0 || m_player2.stacksize() == 0)
       throw logic_error("no more cards");
+      
     std::string log = "";
     bool continuePlaying = true;
     int winCards = 0;
@@ -137,13 +137,12 @@ namespace ariel
     }
 
     log += "\n"; // round end
-    this->m_roundsLogs.push_back(log);
+    this->m_Log.push_back(log);
   }
 
   void Game::printLastTurn()
   {
-    cout << this->m_roundsLogs.back();
-    cout << this->m_roundsLogs.back();
+    cout << this->m_Log.back();
   }
 
   void Game::playAll()
@@ -170,7 +169,7 @@ namespace ariel
 
   void Game::printLog()
   {
-    for (std::string log : this->m_roundsLogs)
+    for (std::string log : this->m_Log)
     {
       cout << log;
     }
@@ -184,10 +183,10 @@ namespace ariel
     double draw_rate = m_draws;
     draw_rate /= m_rounds;
     cout << "--------------------------------" << endl;
-    cout << "game stats" << endl;
+    cout << "Game Stats" << endl;
     cout << "--------------------------------" << endl;
-    cout << "draw rate:" << draw_rate << "\n";
-    cout << "draws amount:" << this->m_draws << "\n";
+    cout << "draw rate:" << draw_rate << endl;
+    cout << "draws amount:" << this->m_draws << endl;
   }
 
 }
