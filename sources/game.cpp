@@ -1,7 +1,7 @@
 #include "game.hpp"
 #include <algorithm>
 #include <iostream>
-#include "../doctest.h"
+
 
 namespace ariel
 {
@@ -85,7 +85,7 @@ namespace ariel
         continuePlaying = true;
         log += "Draw.";
         this->m_draws += 1;
-      
+
         if (this->m_player1.stacksize() > 0 && this->m_player2.stacksize() > 0) // if both players have cards
         {
           DealCard1 = this->m_player1.dealCard();

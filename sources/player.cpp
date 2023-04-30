@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "../doctest.h"
+
 using namespace std;
 
 namespace ariel
