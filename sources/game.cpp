@@ -53,7 +53,7 @@ namespace ariel
 
     if (m_player1.stacksize() == 0 || m_player2.stacksize() == 0)
     {
-      throw "no more cards to play";
+      throw runtime_error("no more cards to play");
     }
     std::string log = "";
     bool continuePlaying = true;

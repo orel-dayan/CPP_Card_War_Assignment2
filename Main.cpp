@@ -15,7 +15,12 @@ int main()
 
   Player p1("Alice");
   Player p2("Bob");
+  cout << "--------------------------------" << endl;
+  cout << " p1 stack size: before " << p1.stacksize() << endl;
+  cout << " p2 stack size before: " << p2.stacksize() << endl;
   Game game(p1, p2);
+  cout << " p1 stack size after : " << p1.stacksize() << endl;
+  cout << " p2 stack size after : " << p2.stacksize() << endl;
   for (int i = 0; i < 5; i++)
   {
     game.playTurn();
@@ -25,12 +30,7 @@ int main()
   game.printLog();
   game.printStats();
   game.printWiner();
-
-  cout << " p1 stack size: " << p1.stacksize() << endl;
-  cout << " p2 stack size: " << p2.stacksize() << endl;
   cout << "--------------------------------" << endl;
-  cout << " p1 cards taken: " << p1.cardesTaken() << endl;
-  cout << " p2 cards taken: " << p2.cardesTaken() << endl;
 
   Game game2(p1, p2);
   int maxTurns = 26;
